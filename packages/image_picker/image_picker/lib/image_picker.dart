@@ -10,15 +10,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 
-export 'package:image_picker_platform_interface/image_picker_platform_interface.dart'
-    show
-        kTypeImage,
-        kTypeVideo,
-        ImageSource,
-        CameraDevice,
-        LostData,
-        PickedFile,
-        RetrieveType;
+export 'package:image_picker_platform_interface/image_picker_platform_interface.dart' show kTypeImage, kTypeVideo, ImageSource, CameraDevice, LostData, PickedFile, RetrieveType;
 
 /// Provides an easy way to pick an image/video from the image library,
 /// or to take a picture/video with the camera.
@@ -95,6 +87,35 @@ class ImagePicker {
       source: source,
       preferredCameraDevice: preferredCameraDevice,
       maxDuration: maxDuration,
+    );
+  }
+
+  /// Returns a [List<PickedFile>] object wrapping the images that were picked.
+  ///
+  /// The returned [List<PickedFile>] is intended to be used within a single APP session. Do not save the file path and use it across sessions.
+  ///
+  /// Where iOS supports HEIC images, Android 8 and below doesn't. Android 9 and above only support HEIC images if used
+  /// in addition to a size modification, of which the usage is explained below.
+  ///
+  /// This method is not supported in iOS versions lower than 14.
+  ///
+  /// If specified, the images will be at most `maxWidth` wide and
+  /// `maxHeight` tall. Otherwise the images will be returned at it's
+  /// original width and height.
+  /// The `imageQuality` argument modifies the quality of the images, ranging from 0-100
+  /// where 100 is the original/max quality. If `imageQuality` is null, the images with
+  /// the original quality will be returned. Compression is only supported for certain
+  /// image types such as JPEG and on Android PNG and WebP, too. If compression is not supported for the image that is picked,
+  /// a warning message will be logged.
+  Future<List<PickedFile>?> getMultiImage({
+    double? maxWidth,
+    double? maxHeight,
+    int? imageQuality,
+  }) {
+    return platform.pickMultiImage(
+      maxWidth: maxWidth,
+      maxHeight: maxHeight,
+      imageQuality: imageQuality,
     );
   }
 

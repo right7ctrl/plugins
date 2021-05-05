@@ -95,6 +95,7 @@ public class ImagePickerPlugin
   static final String METHOD_CALL_VIDEO = "pickVideo";
   private static final String METHOD_CALL_RETRIEVE = "retrieve";
   private static final int CAMERA_DEVICE_FRONT = 1;
+  static final String METHOD_CALL_MULTI_IMAGE = "pickMultiImage";
   private static final int CAMERA_DEVICE_REAR = 0;
   private static final String CHANNEL = "plugins.flutter.io/image_picker";
 
@@ -315,6 +316,9 @@ public class ImagePickerPlugin
           default:
             throw new IllegalArgumentException("Invalid video source: " + imageSource);
         }
+        break;
+      case METHOD_CALL_MULTI_IMAGE:
+        delegate.chooseMultiImageFromGallery(call, result);
         break;
       case METHOD_CALL_RETRIEVE:
         delegate.retrieveLostImage(result);
